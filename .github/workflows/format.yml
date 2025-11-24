@@ -1,0 +1,31 @@
+name: Code Quality checks
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    if: github.head_ref != 'main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Lint Code
+        run: bun run lint
+
+      - name: Format Code
+        run: bun run format
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v6
+        if: github.head_ref != 'main'
+        with:
+          commit_message: Apply formatting changes
+          branch: ${{ github.head_ref }}
