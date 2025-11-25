@@ -9,7 +9,7 @@ import appCss from "../styles.css?url";
 const TanStackDevtools = lazyOnlyDev(() =>
   import("@tanstack/react-devtools").then((module) => ({
     default: module.TanStackDevtools,
-  }))
+  })),
 );
 
 export const Route = createRootRoute({
