@@ -1,10 +1,16 @@
-import { TanStackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import Header from "../components/header";
 
+import { lazyOnlyDev } from "@/utils/lazy";
 import appCss from "../styles.css?url";
+
+const TanStackDevtools = lazyOnlyDev(() =>
+  import("@tanstack/react-devtools").then((module) => ({
+    default: module.TanStackDevtools,
+  })),
+);
 
 export const Route = createRootRoute({
   head: () => ({
